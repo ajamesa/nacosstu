@@ -7,6 +7,7 @@ import com.alibaba.nacos.api.naming.pojo.AbstractHealthChecker;
 import com.alibaba.nacos.api.naming.pojo.Cluster;
 import com.alibaba.nacos.api.naming.pojo.Instance;
 import com.alibaba.nacos.api.naming.pojo.Service;
+import org.junit.Before;
 import org.junit.Test;
 
 import java.util.HashMap;
@@ -19,13 +20,18 @@ import java.util.Properties;
  */
 public class ServiceInstance {
 
-    @Test
-    public void addInstance() throws NacosException {
-        String serverAddr = "http://localhost:8848";
+    private Properties properties = new Properties();
+
+    @Before
+    public void prepareData() {
+        String serverAddr = "https://localhost:8888";
         String contextPath = "nacos";
-        Properties properties = new Properties();
         properties.put("serverAddr", serverAddr);
         properties.put("contextPath", contextPath);
+    }
+
+    @Test
+    public void addInstance() throws NacosException {
         NamingService naming = NamingFactory.createNamingService(properties);
         naming.registerInstance("nacos.test.3", "11.11.11.11", 8888, "TEST1");
 
@@ -66,22 +72,12 @@ public class ServiceInstance {
 
     @Test
     public void testAllInstance() throws NacosException {
-        String serverAddr = "http://localhost:8848";
-        String contextPath = "nacos";
-        Properties properties = new Properties();
-        properties.put("serverAddr", serverAddr);
-        properties.put("contextPath", contextPath);
         NamingService naming = NamingFactory.createNamingService(properties);
         System.out.println(naming.getAllInstances("nacos.test.4"));
     }
 
     @Test
     public void testOneHealthInstance() throws NacosException {
-        String serverAddr = "http://localhost:8848";
-        String contextPath = "nacos";
-        Properties properties = new Properties();
-        properties.put("serverAddr", serverAddr);
-        properties.put("contextPath", contextPath);
         NamingService naming = NamingFactory.createNamingService(properties);
         System.out.println(naming.selectOneHealthyInstance("nacos.test.4"));
 
